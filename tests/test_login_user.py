@@ -16,7 +16,7 @@ class TestLoginUser:
         assert response_data['user']['name'] == create_user[1]["name"]
         assert response_data['user']['email'] == create_user[1]['email']
 
-    @allure.title("Тест на создание уникального пользователя")
+    @allure.title("Тест на создание пользователя с некоректными данными")
     def test_login_user_incorrect_data(self, create_user):
         response_create_user_body = create_user[1]
         # Замена пароля на не верный
