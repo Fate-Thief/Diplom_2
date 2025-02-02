@@ -9,7 +9,7 @@ def api():
     return ApiClient()
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope="function")
 def create_user(api):
     new_user = new_user_body()
     response = api.create_new_user(new_user)

@@ -2,6 +2,7 @@ import allure
 
 from conftetst import create_user, api
 from api_client import ApiClient
+from data import ResponseData
 from helpers import new_user_body
 
 
@@ -27,4 +28,4 @@ class TestUpdateDataUser:
         response_data = response.json()
         assert response.status_code == 401
         assert response_data["success"] is False
-        assert response_data["message"] == "You should be authorised"
+        assert response_data["message"] == ResponseData.AUTHORIZATION_ERROR_MESSAGE

@@ -2,6 +2,7 @@ import allure
 from conftetst import create_user, api
 
 from api_client import ApiClient
+from data import ResponseData
 
 
 @allure.suite("Создание заказа")
@@ -26,7 +27,7 @@ class TestCreateOrder:
         token = response_create_user.json()["accessToken"]
         response_create_order = ApiClient.create_orders(token, ingredient)
         assert response_create_order.status_code == 500
-        assert response_create_order.reason == 'Internal Server Error'
+        assert response_create_order.reason == ResponseData.INTERNAL_SERVER_ERROR_MESSAGE
 
     @allure.title("Создание заказа не зарегистрированным пользователем")
     def test_create_order_without_auth(self):
@@ -38,7 +39,7 @@ class TestCreateOrder:
         response_data = response_create_order.json()
         # В документации написано "Только авторизованные пользователи могут делать заказы.", но на тестовом стенде можно, поэтому тест падает
         assert response_create_order.status_code == 401 and response_data['success'] is False
-        assert response_data['message'] == 'You should be authorised'
+        assert response_data['message'] == ResponseData.AUTHORIZATION_ERROR_MESSAGE
 
     @allure.title("Создание заказа без ингредиентов")
     def test_create_order_not_ingredients(self, create_user):
@@ -47,5 +48,5 @@ class TestCreateOrder:
         token = response_create_user.json()["accessToken"]
         response_create_order = ApiClient.create_orders(token, ingredient)
         response_data = response_create_order.json()
-        assert response_create_order.status_code == 400
-        assert response_create_order.text == '{"success":false,"message":"Ingredient ids must be provided"}'
+        assert response_create_order.status_code == 400 and response_data["success"] is False
+        assert response_data["message"] == ResponseData.MISSING_INGREDIENT_MESSAGE

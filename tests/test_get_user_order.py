@@ -2,6 +2,7 @@ import allure
 
 from api_client import ApiClient
 from conftetst import create_user, api
+from data import ResponseData
 
 
 @allure.suite("Получение заказов конкретного пользователя")
@@ -27,4 +28,4 @@ class TestGetUserOrder:
         response_data = response_get_order.json()
         assert response_get_order.status_code == 401
         assert response_data["success"] is False
-        assert response_data["message"] == "You should be authorised"
+        assert response_data["message"] == ResponseData.AUTHORIZATION_ERROR_MESSAGE

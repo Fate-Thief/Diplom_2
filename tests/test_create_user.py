@@ -3,6 +3,7 @@ import pytest
 
 from conftetst import create_user, api
 from api_client import ApiClient
+from data import ResponseData
 
 
 @allure.suite("Создание пользователя")
@@ -23,7 +24,7 @@ class TestCreateUser:
         response_data_existing_user = response_existing_user.json()
         assert response_existing_user.status_code == 403
         assert response_data_existing_user["success"] is False
-        assert response_data_existing_user["message"] == "User already exists"
+        assert response_data_existing_user["message"] == ResponseData.USER_ALREADY_EXISTS_MESSAGE
 
     @allure.title("Тест на регистрацию пользователя с  одним пустым из обязательныйх полей")
     @pytest.mark.parametrize("missing_field", [{"email": "test@@yandex.ru", "password": "test_password"},
@@ -35,4 +36,4 @@ class TestCreateUser:
         response_data_user_with_empty_field = response_user_with_empty_field.json()
         assert response_user_with_empty_field.status_code == 403
         assert response_data_user_with_empty_field["success"] is False
-        assert response_data_user_with_empty_field["message"] == "Email, password and name are required fields"
+        assert response_data_user_with_empty_field["message"] == ResponseData.REQUIRED_FIELDS_MISSING_MESSAGE

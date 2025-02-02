@@ -1,6 +1,7 @@
 import allure
 from conftetst import create_user, api
 from api_client import ApiClient
+from data import ResponseData
 
 
 @allure.suite("Создание пользователя")
@@ -25,4 +26,4 @@ class TestLoginUser:
         response_data = response.json()
         assert response.status_code == 401
         assert response_data["success"] is False
-        assert response_data["message"] == "email or password are incorrect"
+        assert response_data["message"] == ResponseData.INVALID_CREDENTIALS_MESSAGE
